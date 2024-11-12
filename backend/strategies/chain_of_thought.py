@@ -2,7 +2,6 @@ import openai
 
 openai.api_key = ""
 
-
 # Function to generate a response using the Chain of Thought strategy
 def generate_response_with_chain_of_thought(user_message):
     try:
