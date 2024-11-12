@@ -6,6 +6,7 @@ function ChatArea() {
     { text: 'Hello! How can I assist you?', sender: 'gpt' },
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [selectedStrategy, setSelectedStrategy] = useState('None');
 
   // Function to handle sending a message
   const sendMessage = async () => {
@@ -16,13 +17,16 @@ function ChatArea() {
     setMessages(updatedMessages);
 
     try {
-      // Send the user's message to the backend
+      // Send the user's message and selected strategy to the backend
       const response = await fetch('http://127.0.0.1:5001/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: inputValue }),
+        body: JSON.stringify({
+          message: inputValue,
+          strategy: selectedStrategy, // Send the selected strategy (RAG or None)
+        }),
       });
       const data = await response.json();
 
@@ -35,13 +39,6 @@ function ChatArea() {
 
     // Clear the input field
     setInputValue('');
-  };
-
-  // Function to handle Enter key press
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
   };
 
   return (
@@ -59,18 +56,25 @@ function ChatArea() {
       <div className="chat-input-container">
       <select className="ai-model-selector">
           <option>OpenAI</option>
-        </select>
-        <select className="strategy-selector">
+      </select>
+      <div>
+        <select className="strategy-selector"
+          id="strategy"
+          value={selectedStrategy}
+          onChange={(e) => setSelectedStrategy(e.target.value)}
+        >
+          <option>Standard</option>
           <option>Pro-SLM</option>
           <option>Chain of Thought</option>
-          <option>RAG</option>
+          <option value="RAG">RAG</option>
         </select>
+        </div>
         <input
           className="input-box"
           placeholder="What can I help you with?"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown} // Add onKeyDown event listener
+          onKeyDown={(e) => { if (e.key === 'Enter') sendMessage(); }}
         />
         <button className="send-button" onClick={sendMessage}>
           Send

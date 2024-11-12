@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import openai
-from backend.strategies.rag import generate_response_with_rag
 
 # Initialize the Flask app
 app = Flask(__name__)
@@ -13,15 +12,22 @@ openai.api_key = ""
 def chat():
     data = request.get_json()
     user_message = data.get("message")
-    strategy = data.get("strategy", "None")
 
     try:
-        # If RAG strategy is selected, use RAG to generate a response
-        if strategy.lower() == "rag":
-            assistant_message = generate_response_with_rag(user_message)
-        else:
-            assistant_message = "Please select a strategy for a more informed response."
+        # Use gpt-3.5-turbo instead of text-davinci-003
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # New model that is supported
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_message}
+            ]
+        )
 
+        # Print the response for debugging
+        print("API Response:", response)
+
+        # Extract the assistant's message from the response
+        assistant_message = response['choices'][0]['message']['content']
         return jsonify({"message": assistant_message})
 
     except Exception as e:
