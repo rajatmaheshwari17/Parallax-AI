@@ -1,3 +1,4 @@
+/* General Styles for Chat Area */
 .chat-area {
   flex: 1;
   background-color: #2b2b2b; /* Grey background for chat area */
@@ -5,20 +6,21 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  font-family: 'Roboto', sans-serif; /* Updated font style */
 }
 
 .messages-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Space between messages */
+  gap: 15px; /* Increased space between messages */
   overflow-y: auto; /* Scroll if messages overflow */
   padding-bottom: 10px; /* Space at the bottom */
 }
 
 .ai-model-selector, .strategy-selector {
   padding: 12px; /* Increase padding for larger size */
-  font-size: 16px; /* Increase font size */
+  font-size: 16px; /* Increased font size */
   font-weight: bold; /* Make text bold */
   width: 150px; /* Adjust width to be larger and more consistent */
   border: none;
@@ -27,49 +29,52 @@
   color: #ffffff; /* White text */
 }
 
+/* Message Styles */
 .message {
-  max-width: 60%; /* Limit message width */
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 14px;
+  max-width: 75%; /* Increased width for a cleaner look */
+  padding: 12px; /* Increased padding */
+  border-radius: 25px; /* Capsule shape */
+  font-size: 16px; /* Smaller font size for readability */
   line-height: 1.5;
   word-wrap: break-word; /* Wrap long words */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
 
 .user-message {
   background-color: #4f4f4f; /* Dark grey background for user messages */
   color: #ffffff; /* White text */
   align-self: flex-end; /* Align to the right */
-  border-radius: 10px 10px 0 10px; /* Rounded corners */
+  border-radius: 25px 25px 0 25px; /* Capsule shape */
 }
 
 .gpt-message {
   background-color: #3b3b3b; /* Slightly lighter grey for GPT messages */
   color: #ffffff; /* White text */
   align-self: flex-start; /* Align to the left */
-  border-radius: 10px 10px 10px 0; /* Rounded corners */
+  border-radius: 25px 25px 25px 0; /* Capsule shape */
 }
 
+/* Input and Button Styles */
 .chat-input-container {
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between elements */
+  gap: 15px; /* Space between elements */
   margin-top: auto; /* Push the input area to the bottom */
 }
 
 .input-box {
   flex: 1;
-  padding: 12px; /* Adjust padding for a consistent size */
+  padding: 14px; /* Adjust padding for a consistent size */
   border: 1px solid #4f4f4f; /* Grey border */
   border-radius: 25px; /* Capsule shape */
   background-color: #2b2b2b; /* Grey background */
   color: #ffffff; /* White text */
-  font-size: 16px; /* Increase font size for input text */
+  font-size: 16px; /* Smaller font size for input text */
 }
 
 .input-box::placeholder {
   color: #b0b0b0; /* Lighter grey for placeholder text */
-  font-size: 16px; /* Increase font size for readability */
+  font-size: 16px; /* Consistent font size for placeholder */
   font-weight: normal; /* Normal font weight for the placeholder */
 }
 
@@ -80,7 +85,7 @@
   padding: 12px 20px; /* Adjust padding for consistent size */
   border-radius: 25px; /* Capsule shape */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 16px; /* Smaller font size */
   font-weight: bold; /* Make text bold */
   transition: background-color 0.3s, transform 0.2s;
 }
