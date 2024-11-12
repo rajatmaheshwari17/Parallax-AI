@@ -1,0 +1,30 @@
+.sidebar {
+    width: 250px;
+    background-color: #000000; /* Black background for sidebar */
+    color: #ffffff; /* White text */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Make positioning relative for the New Chat button */
+  }
+  
+  /* Properly shaped New Chat button */
+  .new-chat-button {
+    background-color: #4f4f4f; /* Grey background for button */
+    color: #ffffff; /* White text */
+    padding: 12px 25px; /* Adjusted padding for a balanced capsule shape */
+    font-size: 16px; /* Increase font size */
+    border: none; /* Remove border for a clean look */
+    border-radius: 25px; /* Capsule shape */
+    cursor: pointer;
+    position: absolute; /* Absolute positioning */
+    top: 20px; /* Keep at the top */
+    right: 20px; /* Position at the right of the sidebar */
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  }
+  
+  .new-chat-button:hover {
+    background-color: #6b6b6b; /* Lighter grey on hover */
+  }
+  
