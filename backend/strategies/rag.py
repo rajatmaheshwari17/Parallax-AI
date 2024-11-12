@@ -40,6 +40,7 @@ def generate_response_with_rag(query: str) -> str:
             n=1,
             temperature=0.7
         )
+        print("API Response:", response)
         
         # Return the generated response
         return response['choices'][0]['message']['content'].strip()

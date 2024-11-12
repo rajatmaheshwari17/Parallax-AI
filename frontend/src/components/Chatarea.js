@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './ChatArea.css';
 
 function ChatArea() {
@@ -7,6 +7,11 @@ function ChatArea() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [selectedStrategy, setSelectedStrategy] = useState('None');
+  const messageEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   // Function to handle sending a message
   const sendMessage = async () => {
@@ -17,6 +22,9 @@ function ChatArea() {
     setMessages(updatedMessages);
 
     try {
+      // Ensure that the selected strategy is 'Standard' if nothing else is selected
+      const strategyToSend = selectedStrategy === 'None' ? 'Standard' : selectedStrategy;
+
       // Send the user's message and selected strategy to the backend
       const response = await fetch('http://127.0.0.1:5001/chat', {
         method: 'POST',
@@ -25,12 +33,11 @@ function ChatArea() {
         },
         body: JSON.stringify({
           message: inputValue,
-          strategy: selectedStrategy, // Send the selected strategy (RAG or None)
+          strategy: strategyToSend, // Send the correct strategy
         }),
       });
-      const data = await response.json();
 
-      // Add the assistant's response to the chat
+      const data = await response.json();
       setMessages([...updatedMessages, { text: data.message, sender: 'gpt' }]);
     } catch (error) {
       console.error('Error:', error);
@@ -52,22 +59,24 @@ function ChatArea() {
             {message.text}
           </div>
         ))}
+        <div ref={messageEndRef} />
       </div>
       <div className="chat-input-container">
-      <select className="ai-model-selector">
+        <select className="ai-model-selector">
           <option>OpenAI</option>
-      </select>
-      <div>
-        <select className="strategy-selector"
-          id="strategy"
-          value={selectedStrategy}
-          onChange={(e) => setSelectedStrategy(e.target.value)}
-        >
-          <option>Standard</option>
-          <option>Pro-SLM</option>
-          <option>Chain of Thought</option>
-          <option value="RAG">RAG</option>
         </select>
+        <div className="strategy-selector-container">
+          <select
+            className="strategy-selector"
+            id="strategy"
+            value={selectedStrategy}
+            onChange={(e) => setSelectedStrategy(e.target.value)}
+          >
+            <option>Standard</option>
+            <option>Pro-SLM</option>
+            <option>Chain of Thought</option>
+            <option value="RAG">RAG</option>
+          </select>
         </div>
         <input
           className="input-box"

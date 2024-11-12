@@ -1,18 +1,9 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import openai
 
-# Initialize the Flask app
-app = Flask(__name__)
-CORS(app)
-# Set your OpenAI API key
+# Set your OpenAI API key here
 openai.api_key = ""
 
-@app.route('/chat', methods=['POST'])
-def chat():
-    data = request.get_json()
-    user_message = data.get("message")
-
+def generate_standard_response(user_message):
     try:
         # Use gpt-3.5-turbo instead of text-davinci-003
         response = openai.ChatCompletion.create(
@@ -25,14 +16,13 @@ def chat():
 
         # Print the response for debugging
         print("API Response:", response)
-
-        # Extract the assistant's message from the response
         assistant_message = response['choices'][0]['message']['content']
-        return jsonify({"message": assistant_message})
-
+        return assistant_message
     except Exception as e:
-        print("Error:", str(e))  # Print the error for debugging
-        return jsonify({"error": "Unable to fetch response from GPT"}), 500
+        print("Error:", str(e))
+        return "Error: Unable to fetch response from GPT"
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+# Example usage
+if __name__ == "__main__":
+    user_message = "Hello, how are you?"
+    print(generate_standard_response(user_message))

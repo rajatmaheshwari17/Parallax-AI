@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import openai
 from backend.strategies.rag import generate_response_with_rag
+from backend.strategies.standard import generate_standard_response 
+from backend.strategies.chain_of_thought import generate_response_with_chain_of_thought
 
 # Initialize the Flask app
 app = Flask(__name__)
@@ -19,6 +21,10 @@ def chat():
         # If RAG strategy is selected, use RAG to generate a response
         if strategy.lower() == "rag":
             assistant_message = generate_response_with_rag(user_message)
+        elif strategy.lower() == "standard":
+            assistant_message = generate_standard_response(user_message)
+        elif strategy.lower() == "chain of thought":
+            assistant_message = generate_response_with_chain_of_thought(user_message)
         else:
             assistant_message = "Please select a strategy for a more informed response."
 
