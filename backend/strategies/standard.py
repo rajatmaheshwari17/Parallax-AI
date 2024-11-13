@@ -1,8 +1,11 @@
 import openai
 from anthropic import Anthropic
+# from transformers import pipeline
 
 openai.api_key = ""
 ANTHROPIC_API_KEY = ""
+# llama_pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-1B", device=0) # Meta-LLama
+# nemotron_pipe = pipeline("text-generation", model="nvidia/Llama-3.1-Nemotron-70B-Instruct-HF") # Nvidia-Nemotron
 
 def generate_gpt_response_standard(user_message):
     try:
@@ -40,8 +43,53 @@ def generate_claude_response_standard(user_message):
     except Exception as e:
         print("Claude Error:", str(e))
         return "Error: Unable to fetch response from Claude"
+    
+'''
+def generate_meta_llama_response_standard(user_message):
+    """
+    Generate a response using Meta-LLaMA in the standard strategy.
+    This will generate a simple, straightforward response without additional complexity.
+    """
+    try:
+        # Apply different parameters to avoid repetition and keep the response on-topic
+        prompt = f"Answer the following question directly and concisely:\n{user_message}"
 
-if __name__ == "__main__":
-    user_message = "Hello, how are you?"
-    print(generate_gpt_response_standard(user_message))
-    print(generate_claude_response_standard(user_message))
+        response = llama_pipe(prompt, 
+                        max_length=100,  # Limit the response length
+                        num_return_sequences=1,
+                        truncation=True, 
+                        temperature=0.7,  # Allow some randomness, but controlled
+                        top_p=0.85,  # Apply nucleus sampling with probability mass
+                        top_k=50,  # Restricting the number of tokens considered to avoid repetition
+                        pad_token_id=50256)  # Handle padding token ID
+
+        # Clean the response by trimming extra spaces
+        clean_response = response[0]['generated_text'].strip()
+
+        # Remove any repetitions of the original input
+        if clean_response.count(user_message) > 1:
+            clean_response = clean_response.replace(user_message, '').strip()
+
+        return clean_response
+
+    except Exception as e:
+        print(f"Error in generating response: {e}")
+        return "Error: Unable to generate response with Meta-LLaMA (Standard strategy)."
+'''
+
+'''
+def generate_nemotron_response_standard(user_message):
+    try:
+        # Prepare the input message in the required format
+        messages = [{"role": "user", "content": user_message}]
+        
+        # Get the response from the Nemotron model
+        response = nemotron_pipe(messages)
+        
+        # Extract and return the generated message
+        assistant_message = response[0]['generated_text']
+        return assistant_message
+    except Exception as e:
+        print(f"Error in generating response with Nemotron: {e}")
+        return "Error: Unable to generate response with Nemotron."
+    '''

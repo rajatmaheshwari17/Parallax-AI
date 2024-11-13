@@ -1,8 +1,11 @@
 import openai
 from anthropic import Anthropic
+# from transformers import pipeline
 
 openai.api_key = ""
 ANTHROPIC_API_KEY = ""
+# llama_pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-1B", device=0)
+# nemotron_pipe = pipeline("text-generation", model="nvidia/Llama-3.1-Nemotron-70B-Instruct-HF")
 
 def generate_gpt_response_with_pro_slm(user_message):
     try:
@@ -57,3 +60,56 @@ def generate_claude_response_with_pro_slm(user_message: str) -> str:
         print(f"Claude Error: {e}")
         return "Error: Unable to generate response with Claude Pro-SLM."
 
+''' 
+def generate_meta_llama_response_with_pro_slm(user_message: str) -> str:
+    try:
+        detailed_prompt = f"""
+        You are an expert assistant with extensive knowledge in various domains. Your task is to provide a comprehensive, clear, and well-rounded response to the following question. The answer should cover all relevant aspects of the topic, provide context or background where needed, and be informative without unnecessary elaboration. 
+        Please ensure that your response is coherent, structured, and clear. You should aim to help the user understand the topic in depth while also maintaining brevity and clarity.
+
+        Question: {user_message}
+        """
+
+        response = meta_llama_pipe(detailed_prompt, 
+                                   max_length=150,
+                                   num_return_sequences=1,
+                                   truncation=True, 
+                                   temperature=0.7,
+                                   top_p=0.85,  # Nucleus sampling
+                                   top_k=50)
+        
+        clean_response = response[0]['generated_text'].strip()
+
+        return clean_response
+
+    except Exception as e:
+        print(f"Error in generating response with Meta-LLaMA for Pro-SLM: {e}")
+        return "Error: Unable to generate response with Meta-LLaMA for Pro-SLM."
+'''
+
+'''
+def generate_nemotron_response_with_pro_slm(user_message: str) -> str:
+    try:
+        detailed_prompt = f"""
+        You are an expert assistant with extensive knowledge in various domains. Your task is to provide a comprehensive, clear, and well-rounded response to the following question. The answer should cover all relevant aspects of the topic, provide context or background where needed, and be informative without unnecessary elaboration. 
+        Please ensure that your response is coherent, structured, and clear. You should aim to help the user understand the topic in depth while also maintaining brevity and clarity.
+
+        Question: {user_message}
+        """
+
+        response = nemotron_pipe(detailed_prompt, 
+                                 max_length=150,
+                                 num_return_sequences=1,
+                                 truncation=True, 
+                                 temperature=0.7,
+                                 top_p=0.85,
+                                 top_k=50)
+        
+        clean_response = response[0]['generated_text'].strip()
+
+        return clean_response
+
+    except Exception as e:
+        print(f"Error in generating response with Nemotron for Pro-SLM: {e}")
+        return "Error: Unable to generate response with Nemotron for Pro-SLM."
+'''

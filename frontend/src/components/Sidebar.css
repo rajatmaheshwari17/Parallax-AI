@@ -1,30 +1,29 @@
 .sidebar {
     width: 250px;
-    background-color: #000000; /* Black background for sidebar */
-    color: #ffffff; /* White text */
+    background-color: #000000;
+    color: #ffffff;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    position: relative; /* Make positioning relative for the New Chat button */
+    position: relative;
   }
   
-  /* Properly shaped New Chat button */
   .new-chat-button {
-    background-color: #4f4f4f; /* Grey background for button */
-    color: #ffffff; /* White text */
-    padding: 12px 25px; /* Adjusted padding for a balanced capsule shape */
-    font-size: 16px; /* Increase font size */
-    border: none; /* Remove border for a clean look */
-    border-radius: 25px; /* Capsule shape */
+    background-color: #4f4f4f;
+    color: #ffffff;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
     cursor: pointer;
-    position: absolute; /* Absolute positioning */
-    top: 20px; /* Keep at the top */
-    right: 20px; /* Position at the right of the sidebar */
+    position: absolute;
+    top: 20px;
+    right: 20px;
     transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
   
   .new-chat-button:hover {
-    background-color: #6b6b6b; /* Lighter grey on hover */
+    background-color: #6b6b6b;
   }
   

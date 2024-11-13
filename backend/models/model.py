@@ -18,6 +18,10 @@ def chat():
             assistant_message = chat_chatgpt(user_message, strategy)
         elif selected_model.lower() == "claude":
             assistant_message = chat_claude(user_message, strategy)
+        # elif selected_model.lower() == "claude":
+        #   assistant_message = chat_llama(user_message, strategy)
+        # elif selected_model.lower() == "nematron":
+        #   assistant_message = chat_nematron(user_message, strategy)
         else:
             assistant_message = "Please select a valid AI model."
 

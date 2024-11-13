@@ -1,8 +1,8 @@
 /* General Styling */
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #1e1e1e; /* Dark background for the site */
-  color: #ffffff; /* White text for contrast */
+  background-color: #1e1e1e;
+  color: #ffffff;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,55 +11,55 @@ body {
 .app-container {
   display: flex;
   height: 100vh;
-  position: relative; /* To position the toggle button */
+  position: relative;
 }
 
 /* Toggle Sidebar Button */
 .toggle-sidebar-button {
   position: absolute;
-  top: 20px; /* Position at the top */
-  left: 20px; /* Position at the left */
-  background-color: #4f4f4f; /* Grey background */
-  color: #ffffff; /* White text */
-  border: none; /* Remove border */
-  padding: 12px 25px; /* Adjusted padding to match New Chat button */
-  border-radius: 25px; /* Capsule shape to match New Chat button */
+  top: 20px;
+  left: 20px;
+  background-color: #4f4f4f;
+  color: #ffffff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
   cursor: pointer;
-  z-index: 1000; /* Ensure the button is on top */
-  font-size: 16px; /* Adjust icon size */
-  margin-right: 15px; /* Add space between the Sidebar Toggle Button and the New Chat Button */
+  z-index: 1000;
+  font-size: 16px;
+  margin-right: 15px;
 }
 
 /* Sidebar Styling */
 .sidebar {
   width: 250px;
-  background-color: #000000; /* Black background for sidebar */
-  color: #ffffff; /* White text */
+  background-color: #000000;
+  color: #ffffff;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
+/* New Chat Button Styling */
 .new-chat-button {
-  background-color: #4f4f4f; /* Grey background for button */
-  color: #ffffff; /* White text */
-  padding: 12px 35px; /* Adjusted padding for capsule shape */
-  border-radius: 50px; /* Capsule shape */
+  background-color: #4f4f4f;
+  color: #ffffff;
+  padding: 12px 35px;
+  border-radius: 50px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
   margin-bottom: 20px;
 }
 
 .new-chat-button:hover {
-  background-color: #6b6b6b; /* Lighter grey on hover */
+  background-color: #6b6b6b;
 }
 
 /* Chat Area Styling */
 .chat-area {
   flex: 1;
-  background-color: #2b2b2b; /* Grey background for chat area */
-  color: #ffffff; /* White text */
+  background-color: #2b2b2b;
+  color: #ffffff;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -68,52 +68,52 @@ body {
 .chat-input-container {
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between elements */
-  margin-top: auto; /* Push the input area to the bottom */
+  gap: 10px;
+  margin-top: auto;
 }
 
 /* Smaller AI Model and Strategy Selector Styling */
 .ai-model-selector, .strategy-selector {
-  padding: 8px; /* Reduced padding for smaller size */
-  font-size: 14px; /* Reduced font size */
-  width: 130px; /* Reduced width */
+  padding: 8px;
+  font-size: 14px;
+  width: 130px;
   border: none;
   border-radius: 5px;
-  background-color: #4f4f4f; /* Grey background */
-  color: #ffffff; /* White text */
+  background-color: #4f4f4f;
+  color: #ffffff;
 }
 
 /* Capsule-shaped Text Box Styling */
 .input-box {
   flex: 1;
-  padding: 12px; /* Adjust padding for a consistent size */
-  border: 1px solid #4f4f4f; /* Grey border */
-  border-radius: 25px; /* Capsule shape */
-  background-color: #2b2b2b; /* Grey background */
-  color: #ffffff; /* White text */
-  font-size: 16px; /* Increase font size for input text */
+  padding: 12px;
+  border: 1px solid #4f4f4f;
+  border-radius: 25px;
+  background-color: #2b2b2b;
+  color: #ffffff;
+  font-size: 16px;
 }
 
 .input-box::placeholder {
-  color: #b0b0b0; /* Lighter grey for placeholder text */
-  font-size: 16px; /* Increase font size for readability */
-  font-weight: normal; /* Normal font weight for the placeholder */
-  content: "What can I help you with?"; /* Placeholder text */
+  color: #b0b0b0;
+  font-size: 16px;
+  font-weight: normal;
+  content: "What can I help you with?";
 }
 
 /* Send Button Styling */
 .send-button {
-  background-color: #4f4f4f; /* Grey background */
-  color: #ffffff; /* White text */
-  border: none; /* Remove border for a cleaner look */
-  padding: 12px 20px; /* Adjust padding for consistent size */
-  border-radius: 25px; /* Capsule shape */
+  background-color: #4f4f4f;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: bold; /* Make text bold */
+  font-weight: bold;
   transition: background-color 0.3s, transform 0.2s;
 }
 
 .send-button:hover {
-  background-color: #6b6b6b; /* Lighter grey on hover */
+  background-color: #6b6b6b;
 }

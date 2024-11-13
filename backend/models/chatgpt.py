@@ -10,7 +10,6 @@ app = Flask(__name__)
 CORS(app)
 
 openai.api_key = ""
-
 @app.route('/chat', methods=['POST'])
 def chat_chatgpt(user_message, strategy):
     try:
