@@ -6,11 +6,12 @@ function ChatArea() {
     { text: 'Hello! How can I assist you?', sender: 'gpt' },
   ]);
   const [inputValue, setInputValue] = useState('');
-  const [selectedStrategy, setSelectedStrategy] = useState('None');
+  const [selectedStrategy, setSelectedStrategy] = useState('Standard'); // Default to Standard strategy
+  const [selectedModel, setSelectedModel] = useState('Chatgpt'); // Default to ChatGPT
   const messageEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Function to handle sending a message
@@ -22,10 +23,7 @@ function ChatArea() {
     setMessages(updatedMessages);
 
     try {
-      // Ensure that the selected strategy is 'Standard' if nothing else is selected
-      const strategyToSend = selectedStrategy === 'None' ? 'Standard' : selectedStrategy;
-
-      // Send the user's message and selected strategy to the backend
+      // Send the user's message, selected AI model, and selected strategy to the backend
       const response = await fetch('http://127.0.0.1:5001/chat', {
         method: 'POST',
         headers: {
@@ -33,7 +31,8 @@ function ChatArea() {
         },
         body: JSON.stringify({
           message: inputValue,
-          strategy: strategyToSend, // Send the correct strategy
+          ai_model: selectedModel, // Send the selected model (ChatGPT or Claude)
+          strategy: selectedStrategy, // Send the selected strategy (e.g., RAG, Standard)
         }),
       });
 
@@ -41,7 +40,10 @@ function ChatArea() {
       setMessages([...updatedMessages, { text: data.message, sender: 'gpt' }]);
     } catch (error) {
       console.error('Error:', error);
-      setMessages([...updatedMessages, { text: 'Error: Unable to fetch response from GPT', sender: 'gpt' }]);
+      setMessages([
+        ...updatedMessages,
+        { text: 'Error: Unable to fetch response from AI model', sender: 'gpt' },
+      ]);
     }
 
     // Clear the input field
@@ -62,28 +64,30 @@ function ChatArea() {
         <div ref={messageEndRef} />
       </div>
       <div className="chat-input-container">
-        <select className="ai-model-selector">
-          <option>OpenAI</option>
+        <select className="ai-model-selector" onChange={(e) => setSelectedModel(e.target.value)} value={selectedModel}>
+          <option>Chatgpt</option>
+          <option>Claude</option>
         </select>
-        <div className="strategy-selector-container">
-          <select
-            className="strategy-selector"
-            id="strategy"
-            value={selectedStrategy}
-            onChange={(e) => setSelectedStrategy(e.target.value)}
-          >
-            <option>Standard</option>
-            <option>Pro-SLM</option>
-            <option>Chain of Thought</option>
-            <option value="RAG">RAG</option>
-          </select>
-        </div>
+
+        <select
+          className="strategy-selector"
+          value={selectedStrategy}
+          onChange={(e) => setSelectedStrategy(e.target.value)}
+        >
+          <option>Standard</option>
+          <option>Pro-SLM</option>
+          <option>Chain of Thought</option>
+          <option value="RAG">RAG</option>
+        </select>
+
         <input
           className="input-box"
           placeholder="What can I help you with?"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter') sendMessage(); }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') sendMessage();
+          }}
         />
         <button className="send-button" onClick={sendMessage}>
           Send

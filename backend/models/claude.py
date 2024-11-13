@@ -1,35 +1,45 @@
-import anthropic
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from anthropic import Anthropic
+from backend.strategies.rag import generate_claude_response_with_rag
+from backend.strategies.standard import generate_claude_response_standard
+from backend.strategies.chain_of_thought import generate_claude_response_with_chain_of_thought
+from backend.strategies.pro_slm import generate_claude_response_with_pro_slm
+from backend.strategies.rag import search_google
 
-# Load API key from environment variables or config
-anthropic_api_key = "YOUR_ANTHROPIC_API_KEY"
+app = Flask(__name__)
+CORS(app)
 
-class Claude:
-    def __init__(self):
-        self.client = anthropic.Client(api_key=anthropic_api_key)
+ANTHROPIC_API_KEY = ""
+client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-    def generate_response(self, prompt, max_tokens=150, temperature=0.7):
-        """
-        Generates a response from Claude based on the user's prompt.
+@app.route('/chat/claude', methods=['POST'])
+def chat_claude(user_message, strategy):
+    """
+    Handle chat requests for Claude with different strategies.
+    Expected JSON payload: {
+        "message": "user message here",
+        "strategy": "strategy name here"
+    }
+    """
+    try:
+        if strategy.lower() == "rag":
+            retrieved_info = search_google(user_message)
+            assistant_message = generate_claude_response_with_rag(user_message, retrieved_info)
+        elif strategy.lower() == "standard":
+            assistant_message = generate_claude_response_standard(user_message)
+        elif strategy.lower() == "chain of thought":
+            assistant_message = generate_claude_response_with_chain_of_thought(user_message)
+        elif strategy.lower() == "pro-slm":
+            assistant_message = generate_claude_response_with_pro_slm(user_message)
+        else:
+            assistant_message = "Please select a valid strategy for Claude to generate a response."
 
-        :param prompt: The user's input or question.
-        :param max_tokens: Maximum number of tokens for the response.
-        :param temperature: Controls randomness in the response.
-        :return: The generated response as a string.
-        """
-        try:
-            # Call to Claude's API
-            response = self.client.completion(
-                prompt=prompt,
-                max_tokens_to_sample=max_tokens,
-                temperature=temperature
-            )
-            return response['completion']
-        except Exception as e:
-            return f"An error occurred: {str(e)}"
+        return assistant_message
 
-# Example usage
-if __name__ == "__main__":
-    claude = Claude()
-    user_input = input("Enter your prompt: ")
-    response = claude.generate_response(user_input)
-    print("Claude Response:", response)
+    except Exception as e:
+        print("Claude Error:", str(e))
+        return "Error: Unable to fetch response from Claude"
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5002) 
