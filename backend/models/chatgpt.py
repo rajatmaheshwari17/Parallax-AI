@@ -5,16 +5,19 @@ from backend.strategies.rag import generate_gpt_response_with_rag
 from backend.strategies.standard import generate_gpt_response_standard
 from backend.strategies.chain_of_thought import generate_gpt_response_with_chain_of_thought
 from backend.strategies.pro_slm import generate_gpt_response_with_pro_slm
+from backend.strategies.rag import search_google
 
 app = Flask(__name__)
 CORS(app)
 
 openai.api_key = ""
+
 @app.route('/chat', methods=['POST'])
 def chat_chatgpt(user_message, strategy):
     try:
         if strategy.lower() == "rag":
-            assistant_message = generate_gpt_response_with_rag(user_message)
+            retrieved_info = search_google(user_message)
+            assistant_message = generate_gpt_response_with_rag(user_message, retrieved_info)
         elif strategy.lower() == "standard":
             assistant_message = generate_gpt_response_standard(user_message)
         elif strategy.lower() == "chain of thought":

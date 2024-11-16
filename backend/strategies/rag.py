@@ -1,12 +1,14 @@
 import openai
 from googleapiclient.discovery import build
 from anthropic import Anthropic
+import google.generativeai as genai
 # from transformers import pipeline
 
 openai.api_key = ""
 google_api_key = ""
 cse_id = ""
 ANTHROPIC_API_KEY = ""
+genai.configure(api_key="")
 # llama_pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-1B", device=0)
 # nemotron_pipe = pipeline("text-generation", model="nvidia/Llama-3.1-Nemotron-70B-Instruct-HF")
 
@@ -19,7 +21,7 @@ def search_google(query: str) -> str:
     else:
         return "Sorry, I couldn't find relevant information on the web."
 
-def generate_gpt_response_with_rag(query: str) -> str:
+def generate_gpt_response_with_rag(query: str, retrieved_info: str) -> str:
     """
     Generate a response using RAG (retrieval-augmented generation).
     First, retrieve relevant information using Google Custom Search, then generate a response using GPT.
@@ -68,6 +70,24 @@ def generate_claude_response_with_rag(query: str, retrieved_info: str) -> str:
     except Exception as e:
         print("Claude Error:", e)
         return "Sorry, there was an issue with generating the Claude response."
+    
+def generate_gemini_response_with_rag(query: str) -> str:
+    """
+    Generate a response using Gemini in the RAG strategy.
+    First, retrieve relevant information using Google Custom Search, then generate a response using Gemini.
+    """
+    retrieved_info = search_google(query)
+    prompt = f"Query: {query}\n\nRelevant information from Google search:\n{retrieved_info}\n\nAnswer:"
+
+    try:
+        model = genai.GenerativeModel('gemini-1.5-pro')
+        response = model.generate_content(prompt)
+        print("Gemini API Response:", response)
+        return response.text
+
+    except Exception as e:
+        print("Gemini Error:", str(e))
+        return "Error: Unable to fetch response from Gemini"
 
 '''
 def generate_meta_llama_response_with_rag(query: str) -> str:

@@ -1,9 +1,11 @@
 import openai
 from anthropic import Anthropic
+import google.generativeai as genai
 # from transformers import pipeline
 
 openai.api_key = ""
 ANTHROPIC_API_KEY = ""
+genai.configure(api_key="")
 # llama_pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-1B", device=0)
 # nemotron_pipe = pipeline("text-generation", model="nvidia/Llama-3.1-Nemotron-70B-Instruct-HF")
 
@@ -52,6 +54,26 @@ def generate_claude_response_with_chain_of_thought(user_message: str) -> str:
         print(f"Claude Error: {e}")
         return "Error: Unable to generate response with Claude Chain of Thought."
     
+def generate_gemini_response_with_chain_of_thought(query: str) -> str:
+    """
+    Generate a response using Gemini in the chain of thought strategy.
+    First, retrieve relevant information using Google Custom Search, then generate a response using Gemini.
+    """
+    prompt = f"""
+        You are a logical assistant. Break down the problem and reason step by step before giving your final answer.
+
+        Question: {query}
+        """
+    try:
+        model = genai.GenerativeModel('gemini-1.5-pro')
+        response = model.generate_content(prompt)
+        print("Gemini API Response:", response)
+        return response.text
+
+    except Exception as e:
+        print("Gemini Error:", str(e))
+        return "Error: Unable to fetch response from Gemini"
+
 '''
 def generate_meta_llama_response_with_chain_of_thought(user_message: str) -> str:
     try:

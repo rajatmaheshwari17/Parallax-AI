@@ -64,6 +64,7 @@ function ChatArea() {
         <select className="ai-model-selector" onChange={(e) => setSelectedModel(e.target.value)} value={selectedModel}>
           <option>Chatgpt</option>
           <option>Claude</option>
+          <option>Gemini</option>
         </select>
 
         <select

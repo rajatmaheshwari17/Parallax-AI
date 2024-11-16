@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from backend.models.chatgpt import chat_chatgpt
 from backend.models.claude import chat_claude
+from backend.models.gemini import chat_gemini
+# from backend.models.llama import chat_llama
+# from backend.models.nematron import chat_nematron
 
 app = Flask(__name__)
 CORS(app)
@@ -18,7 +21,9 @@ def chat():
             assistant_message = chat_chatgpt(user_message, strategy)
         elif selected_model.lower() == "claude":
             assistant_message = chat_claude(user_message, strategy)
-        # elif selected_model.lower() == "claude":
+        elif selected_model.lower() == "gemini":
+            assistant_message = chat_gemini(user_message, strategy)
+        # elif selected_model.lower() == "llama":
         #   assistant_message = chat_llama(user_message, strategy)
         # elif selected_model.lower() == "nematron":
         #   assistant_message = chat_nematron(user_message, strategy)
